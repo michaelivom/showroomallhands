@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Showroom All-Hands · Conversion & AOV Focus</title>
+  <style>
+    :root {
+      --navy: #243d60;
+      --navy-2: #172a44;
+      --gold: #f8b900;
+      --cream: #fff8e6;
+      --green: #dff0d6;
+      --red: #ff3b3b;
+      --amber: #fff2aa;
+      --peach: #f5ddcf;
+      --ink: #1d1d1f;
+      --muted: #677082;
+      --line: #e7e9ee;
+      --bg: #f6f7f9;
+      --white: #ffffff;
+      --shadow: 0 18px 40px rgba(23, 42, 68, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    header {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 68%, #111927 100%);
+      color: white;
+      display: grid;
+      place-items: center;
+      padding: 48px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    header:before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -30% auto;
+      width: 560px;
+      height: 560px;
+      background: rgba(248,185,0,0.18);
+      border-radius: 50%;
+      filter: blur(6px);
+    }
+    .hero { max-width: 1120px; position: relative; z-index: 1; }
+    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-weight: 800; font-size: 13px; }
+    h1 { font-size: clamp(56px, 7vw, 96px); line-height: .9; margin: 18px 0 8px; max-width: 1060px; font-weight: 950; }
+    .hero-subtitle { font-size: clamp(22px, 2.2vw, 34px); color: #dbe4f3; max-width: 860px; font-weight: 500; line-height: 1.2; margin-bottom: 20px; }
+    .hero p { font-size: clamp(18px, 2vw, 26px); color: #dbe4f3; max-width: 850px; }
+    .hero-actions { display: flex; gap: 14px; margin-top: 34px; flex-wrap: wrap; }
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: .18s ease;
+    }
+    .btn.primary { background: var(--gold); color: #161616; }
+    .btn.secondary { background: rgba(255,255,255,.12); color: white; border: 1px solid rgba(255,255,255,.2); }
+    .btn:hover { transform: translateY(-2px); }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 20px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    nav a {
+      color: var(--navy);
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    nav a:hover, nav a.active { background: var(--cream); }
+
+    section { padding: 68px 24px; }
+    .wrap { max-width: 1200px; margin: 0 auto; }
+    h2 { font-size: clamp(32px, 4vw, 54px); margin: 0 0 14px; color: var(--navy-2); }
+    .lead { color: var(--muted); font-size: 20px; max-width: 860px; margin-bottom: 30px; }
+
+    .grid { display: grid; gap: 18px; }
+    .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 8px; color: var(--navy); font-size: 22px; }
+    .metric { font-size: 42px; font-weight: 900; letter-spacing: -.04em; }
+    .muted { color: var(--muted); }
+    .tag { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: var(--cream); font-weight: 800; font-size: 13px; }
+
+    .agenda-item {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 18px;
+      background: white;
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+    .num { width: 42px; height: 42px; border-radius: 50%; background: var(--navy); color: white; display: grid; place-items: center; font-weight: 900; }
+
+    .controls { display: flex; gap: 12px; flex-wrap: wrap; margin: 18px 0 24px; }
+    select, input, textarea {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: white;
+      font-size: 15px;
+      font-family: inherit;
+    }
+    textarea { width: 100%; min-height: 110px; resize: vertical; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    th { background: var(--navy); color: white; padding: 12px; text-align: left; font-size: 13px; }
+    td { padding: 12px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    tr:hover td { background: #fafafa; }
+    .good { background: var(--green); }
+    .warn { background: var(--amber); }
+    .bad { background: var(--peach); }
+    .critical { background: var(--red); color: white; font-weight: 900; }
+
+    .insight { border-left: 6px solid var(--gold); }
+    .phase { display: grid; grid-template-columns: 170px 1fr 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .phase strong { color: var(--navy); }
+
+    .expectation {
+      background: linear-gradient(135deg, var(--navy-2), var(--navy));
+      color: white;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      margin-top: 26px;
+    }
+    .expectation h3 { color: white; font-size: 30px; margin-top: 0; }
+    .expectation-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .expectation-box { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: 18px; padding: 18px; }
+    .expectation-box strong { color: var(--gold); display: block; margin-bottom: 8px; }
+
+    details { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(0,0,0,.04); }
+    summary { font-weight: 900; cursor: pointer; color: var(--navy); }
+
+    .blank-lines { display: grid; gap: 16px; }
+    .blank-line { min-height: 72px; border: 2px dashed #cbd3df; border-radius: 18px; background: #fff; padding: 18px; color: var(--muted); font-weight: 800; }
+    .timer {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: var(--navy-2);
+      color: white;
+      border-radius: 18px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 40;
+    }
+    .timer button { border: 0; border-radius: 999px; padding: 8px 10px; cursor: pointer; font-weight: 800; }
+
+    @media (max-width: 850px) {
+      .grid.cols-2, .grid.cols-3, .grid.cols-4, .expectation-grid { grid-template-columns: 1fr; }
+      .agenda-item { grid-template-columns: 48px 1fr; }
+      .agenda-item .tag { grid-column: 2; }
+      .phase { grid-template-columns: 1fr; }
+      table { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header id="top">
+    <div class="hero">
+      <div class="eyebrow">Showroom All-Hands · Get-Shit-Done Mode</div>
+      <h1>Full focus on conversion</h1>
+      <div class="hero-subtitle">More closings via better needs analysis + standardized follow-ups</div>
+      <p>Today is about clarity, not blame: where we lose momentum, what great Livom consultation looks like, and which behaviors change immediately.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#agenda">Start Meeting</a>
+        <a class="btn secondary" href="https://michaelivom.github.io/follow-up-playbook/" target="_blank">Open Follow-up Playbook ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <nav id="nav">
+    <a href="#agenda">Agenda</a>
+    <a href="#checkin">Check-in</a>
+    <a href="#cm4">CM4</a>
+    <a href="#consultation">Consultation</a>
+    <a href="#hubspot">HubSpot</a>
+    <a href="#followup">Follow-up</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#commitments">Commitments</a>
+  </nav>
+
+  <section id="agenda">
+    <div class="wrap">
+      <h2>Meeting Flow</h2>
+      <p class="lead">A clear progression: emotional alignment → fact base → operational standards → immediate actions.</p>
+      <div class="agenda-item"><div class="num">1</div><div><strong>Emotional & reality check-in</strong><br><span class="muted">What feels hardest right now? What can we control?</span></div><span class="tag">5 min</span></div>
+      <div class="agenda-item"><div class="num">2</div><div><strong>CM4 analysis + questions</strong><br><span class="muted">Store patterns, unit economics, conversion and AOV gaps.</span></div><span class="tag">8 min</span></div>
+      <div class="agenda-item"><div class="num">3</div><div><strong>Essentials in showroom consultation</strong><br><span class="muted">Moments & needs → USP demo → configuration → recommendation → next step.</span></div><span class="tag">12 min</span></div>
+      <div class="agenda-item"><div class="num">4</div><div><strong>HubSpot usage & discipline</strong><br><span class="muted">Minimum expectations, CRM notes, lead status and owner accountability.</span></div><span class="tag">10 min</span></div>
+      <div class="agenda-item"><div class="num">5</div><div><strong>New follow-up playbook</strong><br><span class="muted">24h follow-up, personal references, clear next step and measurement.</span></div><span class="tag">15 min</span></div>
+      <div class="agenda-item"><div class="num">6</div><div><strong>Pricing feedback + commitments</strong><br><span class="muted">Where do we have hidden pricing potential?</span></div><span class="tag">10 min</span></div>
+    </div>
+  </section>
+
+  <section id="checkin">
+    <div class="wrap">
+      <h2>1 · Emotional Check-in</h2>
+      <p class="lead">This is not a blame round. It is a fast pulse check so we can address the real friction in the room.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Prompt 1</h3><p class="metric">1 sentence</p><p>What currently feels hardest in the showroom?</p></div>
+        <div class="card"><h3>Prompt 2</h3><p class="metric">1 word</p><p>How would you describe your current energy?</p></div>
+        <div class="card"><h3>Prompt 3</h3><p class="metric">1 focus</p><p>What is one thing we can control immediately?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cm4">
+    <div class="wrap">
+      <h2>2 · CM4 Analysis</h2>
+      <p class="lead">10-minute fact base: where are we strong, where do we lose profitability, and which learnings can we transfer?</p>
+      <div class="grid cols-4">
+        <div class="card"><h3>Total Net Revenue YoY</h3><div class="metric">+25%</div><p class="muted">YTD growth</p></div>
+        <div class="card"><h3>Total CM4 YTD</h3><div class="metric">551k</div><p class="muted">551.421 total CM4</p></div>
+        <div class="card"><h3>Overall CM4%</h3><div class="metric">9.8%</div><p class="muted">vs. 5.0% in 2025 · +4.8pp</p></div>
+        <div class="card"><h3>Biggest Risk</h3><div class="metric">Milano</div><p class="muted">-45% CM4% · 36% unit economics</p></div>
+      </div>
+
+      <div class="controls">
+        <select id="countryFilter"><option value="all">All countries</option><option>Austria</option><option>Germany</option><option>Italy</option><option>Switzerland</option></select>
+        <select id="riskFilter"><option value="all">All risk levels</option><option value="green">Healthy CM4%</option><option value="yellow">Watchlist</option><option value="red">Critical</option></select>
+        <input id="search" placeholder="Search showroom…" />
+      </div>
+
+      <table id="cm4Table">
+        <thead><tr><th>Country</th><th>Showroom</th><th>Revenue YTD</th><th>YoY</th><th>CM4</th><th>CM4%</th><th>Unit Econ.</th><th>Current CR</th><th>Current AOV</th><th>Previous CR</th><th>Previous AOV</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="grid cols-3" style="margin-top:24px;">
+        <div class="card insight"><h3>Pattern 1 · CM4 improved, but unevenly</h3><p>Overall CM4% improved from 5.0% to 9.8%, but Milano and Geneve show that profitability risks are concentrated and need focused root-cause work.</p></div>
+        <div class="card insight"><h3>Pattern 2 · Germany has traffic but weak leverage</h3><p>München has large visit volume but very low CR. This is likely a consultation, qualification or follow-up conversion issue rather than a traffic issue.</p></div>
+        <div class="card insight"><h3>Pattern 3 · AOV potential is visible</h3><p>Stores with stronger AOV show that premium configurations are sellable. The question is where pricing is under-leveraged today.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="consultation">
+    <div class="wrap">
+      <h2>3 · Essentials in Showroom Consultation</h2>
+      <p class="lead">The goal is not more pressure. The goal is a calmer, clearer and more consistent advisory journey.</p>
+      <div class="card">
+        <div class="phase"><strong>Moments & needs</strong><span>Understand lifestyle, room, emotional use case and decision criteria.</span><span class="muted">Avoid: jumping into modules or price too early.</span></div>
+        <div class="phase"><strong>USP demonstration</strong><span>Physically show modularity, washable covers, flexibility and sustainability.</span><span class="muted">Avoid: explaining without letting the customer experience it.</span></div>
+        <div class="phase"><strong>Sofa configuration</strong><span>Build with the customer: size, layout, fabric, color, future flexibility.</span><span class="muted">Avoid: overwhelming customers with unlimited options.</span></div>
+        <div class="phase"><strong>Clear recommendation</strong><span>Advisor states what they would recommend and why.</span><span class="muted">Avoid: “Whatever you prefer.”</span></div>
+        <div class="phase"><strong>Next step</strong><span>End every consultation with one agreed next action.</span><span class="muted">Avoid: leaving momentum open-ended.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hubspot">
+    <div class="wrap">
+      <h2>4 · HubSpot Usage & Discipline</h2>
+      <p class="lead">HubSpot is not admin. It is consultation memory, follow-up quality and coaching visibility.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Minimum notes</h3><p>Needs, room situation, configuration, fabric/color, objections, willingness to decide, timeline of decision and next step.</p></div>
+        <div class="card"><h3>Lead status</h3><p>Every visit is classified: Hot lead, Warm lead or Cold lead.</p></div>
+        <div class="card"><h3>Timing</h3><p>Every consultation is documented before end of shift. First follow-up task is created immediately.</p></div>
+      </div>
+
+      <div class="expectation">
+        <h3>What I expect from everyone</h3>
+        <div class="expectation-grid">
+          <div class="expectation-box"><strong>1 · Own the lead</strong>Every showroom visit has a clear owner in HubSpot.</div>
+          <div class="expectation-box"><strong>2 · Document properly</strong>Needs, objections, decision timeline and next step are written down.</div>
+          <div class="expectation-box"><strong>3 · Set the next action</strong>No lead leaves the system without a follow-up task or clear status.</div>
+          <div class="expectation-box"><strong>4 · Finish same day</strong>HubSpot is updated before end of shift, not days later.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px;">
+        <h3>Discussion: HubSpot blockers</h3>
+        <p class="muted">What are your main challenges and blockers with HubSpot?</p>
+        <textarea placeholder="Capture blockers live: unclear fields, too many steps, mobile usage, missing training, unclear ownership, technical issues…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section id="followup">
+    <div class="wrap">
+      <h2>5 · New Follow-up Playbook</h2>
+      <p class="lead">The follow-up should feel like the natural next step after the showroom consultation: personal, useful and calm.</p>
+      <div class="grid cols-3">
+        <div class="card"><h3>Advisory continuity</h3><p>Reference the actual consultation and continue the customer’s decision process.</p></div>
+        <div class="card"><h3>Decision support</h3><p>Reduce uncertainty around configuration, fabric, size, delivery, value and price.</p></div>
+        <div class="card"><h3>Consistent performance</h3><p>Standardize timing, CRM logic and message structure — not the human relationship.</p></div>
+      </div>
+      <details open><summary>Operational rules</summary><p>Lead status for every visit. First follow-up within 24h. One real personal detail in every message. WhatsApp only with permission. Advisor owns the relationship.</p></details>
+      <details><summary>Quality rules</summary><p>One clear next step. Visual support when relevant. Helpful, not needy. Address objections early. Review 5 follow-ups per advisor per month.</p></details>
+      <details><summary>What to avoid</summary><p>Over-automation, pushy urgency, channel misuse, generic templates, weak handovers and no measurement.</p></details>
+      <p><a class="btn primary" href="https://michaelivom.github.io/follow-up-playbook/" target="_blank">Open full playbook ↗</a></p>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <h2>6 · Pricing Feedback</h2>
+      <p class="lead">Goal: identify hidden pricing potential from the showroom reality. Where could we capture more value without hurting conversion?</p>
+      <div class="grid cols-2">
+        <div class="card"><h3>Sofas with pricing upside</h3><p>Which models or configurations feel underpriced based on demand, customer reactions or perceived value?</p><textarea placeholder="Examples: best-selling models, large configurations, family setups, premium modules…"></textarea></div>
+        <div class="card"><h3>Bundles customers already want</h3><p>Which add-ons, modules, cushions, covers or services are often asked for and could be bundled more confidently?</p><textarea placeholder="Examples: extra covers, ottomans, sleeping setups, care kits, additional modules…"></textarea></div>
+        <div class="card"><h3>Fabrics / colors too low</h3><p>Which fabrics, colors or material options create strong demand or premium perception but are offered too cheaply?</p><textarea placeholder="Examples: premium fabrics, popular colors, easy-care materials, pet/family-friendly options…"></textarea></div>
+        <div class="card"><h3>Where price resistance is lowest</h3><p>In which customer situations do people accept higher prices most easily?</p><textarea placeholder="Examples: moving home, family use, design-led customers, urgent delivery, sustainability-driven customers…"></textarea></div>
+      </div>
+      <div class="card insight" style="margin-top:24px;"><h3>Discussion rule</h3><p>Separate true affordability issues from underused value arguments. We are looking for concrete pricing opportunities, not a general debate about “too expensive”.</p></div>
+    </div>
+  </section>
+
+  <section id="commitments">
+    <div class="wrap">
+      <h2>Commitments from Tomorrow</h2>
+      <p class="lead">Open round: what is one concrete behavior you are personally willing to commit to?</p>
+      <div class="card">
+        <div class="blank-lines">
+          <div class="blank-line">Commitment 1</div>
+          <div class="blank-line">Commitment 2</div>
+          <div class="blank-line">Commitment 3</div>
+          <div class="blank-line">Commitment 4</div>
+          <div class="blank-line">Commitment 5</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="timer"><strong id="time">60:00</strong><button onclick="toggleTimer()">Start/Pause</button><button onclick="resetTimer()">Reset</button></div>
+
+  <script>
+    const data = [
+      {country:'Austria', showroom:'Wien', revenue:'575.717', yoy:'73%', cm4:'95.410', cm4p:17, unit:5, cr:58, aov:'2.525', prevCr:49, prevAov:'2.316'},
+      {country:'Germany', showroom:'Berlin', revenue:'784.825', yoy:'94%', cm4:'57.960', cm4p:7, unit:10, cr:50, aov:'2.582', prevCr:31, prevAov:'2.352'},
+      {country:'Germany', showroom:'Düsseldorf', revenue:'339.378', yoy:'7%', cm4:'25.994', cm4p:8, unit:9, cr:41, aov:'2.737', prevCr:47, prevAov:'2.949'},
+      {country:'Germany', showroom:'Frankfurt', revenue:'330.467', yoy:'4%', cm4:'20.455', cm4p:6, unit:11, cr:45, aov:'2.709', prevCr:40, prevAov:'3.533'},
+      {country:'Germany', showroom:'Hamburg', revenue:'485.978', yoy:'156%', cm4:'31.524', cm4p:6, unit:11, cr:42, aov:'2.442', prevCr:36, prevAov:'2.495'},
+      {country:'Germany', showroom:'Hannover', revenue:'107.148', yoy:'-', cm4:'6.075', cm4p:6, unit:11, cr:42, aov:'2.679', prevCr:null, prevAov:'-'},
+      {country:'Germany', showroom:'München', revenue:'835.596', yoy:'47%', cm4:'34.811', cm4p:4, unit:13, cr:16, aov:'2.571', prevCr:13, prevAov:'2.685'},
+      {country:'Germany', showroom:'Nürnberg', revenue:'64.687', yoy:'-', cm4:'2.469', cm4p:4, unit:13, cr:26, aov:'2.812', prevCr:null, prevAov:'-'},
+      {country:'Italy', showroom:'Milano', revenue:'124.372', yoy:'-53%', cm4:'-55.661', cm4p:-45, unit:36, cr:44, aov:'2.221', prevCr:40, prevAov:'2.397'},
+      {country:'Switzerland', showroom:'Amriswil', revenue:'211.278', yoy:'5%', cm4:'34.232', cm4p:16, unit:10, cr:44, aov:'4.143', prevCr:71, prevAov:'3.790'},
+      {country:'Switzerland', showroom:'Basel', revenue:'222.114', yoy:'-', cm4:'43.910', cm4p:20, unit:6, cr:62, aov:'3.043', prevCr:null, prevAov:'-'},
+      {country:'Switzerland', showroom:'Geneve', revenue:'133.918', yoy:'71%', cm4:'-6.193', cm4p:-5, unit:31, cr:64, aov:'2.849', prevCr:46, prevAov:'3.413'},
+      {country:'Switzerland', showroom:'Lutry', revenue:'377.509', yoy:'64%', cm4:'41.220', cm4p:11, unit:15, cr:71, aov:'2.882', prevCr:52, prevAov:'2.945'},
+      {country:'Switzerland', showroom:'Zürich', revenue:'1.039.102', yoy:'30%', cm4:'219.215', cm4p:21, unit:5, cr:54, aov:'3.309', prevCr:40, prevAov:'3.051'}
+    ];
+
+    function risk(row) { if (row.cm4p < 0) return 'red'; if (row.cm4p < 10) return 'yellow'; return 'green'; }
+    function cm4Class(v) { if (v < 0) return 'critical'; if (v < 7) return 'bad'; if (v < 12) return 'warn'; return 'good'; }
+    function renderTable() {
+      const country = document.getElementById('countryFilter').value;
+      const riskF = document.getElementById('riskFilter').value;
+      const q = document.getElementById('search').value.toLowerCase();
+      const tbody = document.querySelector('#cm4Table tbody');
+      tbody.innerHTML = '';
+      data.filter(r => (country==='all'||r.country===country) && (riskF==='all'||risk(r)===riskF) && r.showroom.toLowerCase().includes(q)).forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.country}</td><td><strong>${r.showroom}</strong></td><td>${r.revenue}</td><td>${r.yoy}</td><td>${r.cm4}</td><td class="${cm4Class(r.cm4p)}">${r.cm4p}%</td><td>${r.unit}%</td><td>${r.cr}%</td><td>${r.aov}</td><td>${r.prevCr ? r.prevCr+'%' : '-'}</td><td>${r.prevAov}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    ['countryFilter','riskFilter','search'].forEach(id => document.getElementById(id).addEventListener('input', renderTable));
+    renderTable();
+
+    let seconds = 60*60, running = false, int;
+    function paintTime(){ const m = Math.floor(seconds/60).toString().padStart(2,'0'); const s = (seconds%60).toString().padStart(2,'0'); document.getElementById('time').textContent = `${m}:${s}`; }
+    function toggleTimer(){ running = !running; if(running){ int = setInterval(()=>{ if(seconds>0){ seconds--; paintTime(); } },1000); } else clearInterval(int); }
+    function resetTimer(){ running=false; clearInterval(int); seconds=60*60; paintTime(); }
+
+    const links = [...document.querySelectorAll('nav a')];
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY + 120;
+      links.forEach(a => {
+        const sec = document.querySelector(a.getAttribute('href'));
+        a.classList.toggle('active', sec && y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight);
+      });
+    });
+  </script>
+</body>
+</html>
